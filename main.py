@@ -19,7 +19,7 @@ def gen_states():
                             weights=STATES.get('WEIGHTS', None))[0]
 
     for i in range(num_of_states):
-        ret += ['q' + str(i)]
+        ret += ['q' + str(i + 1)]
     return set(ret)
 
 def gen_alphabet():
