@@ -119,12 +119,14 @@ def print_nfa(nfa):
     HEADER = ['', 'ε-nfa', 'ε'] + symbols
 
     TABLE = []
-    for state in nfa.states:
-        if state == 'S' or state == 'F':
+    states = list(nfa.states)
+    states.sort()
+    for state in states:
+        if state == nfa.initial_state or state in nfa.final_states:
             continue
         ROW = []
-        start_s = state in nfa.transitions['S']['']
-        final_s = 'F' in nfa.transitions.get(state, {}).get('', {})
+        start_s = state in nfa.transitions[nfa.initial_state]['']
+        final_s = any([f_state in nfa.transitions.get(state, {}).get('', {}) for f_state in nfa.final_states])
         SPECIAL_STATE = ''
         SPECIAL_STATE += '<' if final_s else ''
         SPECIAL_STATE += '-' if start_s or final_s else ''
@@ -148,8 +150,7 @@ def print_dfa(dfa):
     TABLE = []
 
     for state in dfa.states:
-        if state == 'S' or state == 'F':
-            continue
+
         ROW = []
         start_s = state == dfa.initial_state
         final_s = state in dfa.final_states
