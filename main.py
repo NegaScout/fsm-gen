@@ -77,19 +77,19 @@ def gen_other_transitions(states, alphabet):
     states = states - {'S', 'F'}
     ret = {}
     for state in states:
-        num_of_transitions = choices(range(TRANSITIONS['MIN'], TRANSITIONS['MAX'] + 1),
-                                     k=1,
-                                     weights=TRANSITIONS.get('WEIGHTS', None))[0]
-        for i in range(num_of_transitions):
-            transition = choice(list(alphabet))
-            target_state = random_state(states)
-            if state not in ret:
-                ret[state] = {transition: {target_state}}
-            else:
-                if transition not in ret[state]:
-                    ret[state][transition] = {target_state}
+        for transition in list(alphabet):
+            num_of_transitions = choices(range(TRANSITIONS['MIN'], TRANSITIONS['MAX'] + 1),
+                                         k=1,
+                                         weights=TRANSITIONS.get('WEIGHTS', None))[0]
+            for i in range(num_of_transitions):
+                target_state = random_state(states)
+                if state not in ret:
+                    ret[state] = {transition: {target_state}}
                 else:
-                    ret[state][transition] |= {target_state}
+                    if transition not in ret[state]:
+                        ret[state][transition] = {target_state}
+                    else:
+                        ret[state][transition] |= {target_state}
     return ret
 
 def random_pair(states):
