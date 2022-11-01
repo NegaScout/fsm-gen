@@ -126,7 +126,7 @@ def print_nfa(nfa):
         #     continue
         ROW = []
         start_s = state in nfa.transitions[nfa.initial_state][''] or state == nfa.initial_state
-        final_s = any([f_state in nfa.transitions.get(state, {}).get('', {}) for f_state in nfa.final_states])
+        final_s = any([f_state in nfa.transitions.get(state, {}).get('', {}) or state in nfa.final_states for f_state in nfa.final_states])
         SPECIAL_STATE = ''
         SPECIAL_STATE += '<' if final_s else ''
         SPECIAL_STATE += '-' if start_s or final_s else ''
